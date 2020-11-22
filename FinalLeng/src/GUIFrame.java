@@ -11,6 +11,14 @@ import javax.swing.table.TableColumnModel;
  *
  * @author sdegante
  */
+
+import javax.swing.JSlider;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+
+import java.util.Hashtable;
+
+import javax.swing.JLabel;
 public class GUIFrame extends javax.swing.JFrame {
 
     private boolean flagToStartThreads; 
@@ -70,6 +78,32 @@ public class GUIFrame extends javax.swing.JFrame {
         jTextFieldDone = new javax.swing.JTextField();
         jButtonInicio = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
+        slider = new javax.swing.JSlider();
+        
+        
+        //JSlider slider = new JSlider();
+        //JSlider slider = new javax.swing.JSlider();
+        slider.setMinimum(1);
+        slider.setMinorTickSpacing(5);
+        slider.setMajorTickSpacing(10);
+        slider.setPaintTicks(true);
+        slider.setPaintLabels(true);
+        Hashtable<Integer, JLabel> position = new Hashtable<Integer, JLabel>();
+        position.put(1, new JLabel("1"));
+        position.put(25, new JLabel("25"));
+        position.put(50, new JLabel("50"));
+        position.put(75, new JLabel("75"));
+        position.put(100, new JLabel("100"));
+         
+        // Set the label to be drawn
+        slider.setLabelTable(position);
+         
+        slider.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+            	jLabel3.setText("Buffer: " + ((JSlider)e.getSource()).getValue());
+            }
+        });
+
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -88,7 +122,7 @@ public class GUIFrame extends javax.swing.JFrame {
 
         jSpinnerConsumers.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10, 1));
 
-        jLabel3.setText("Tamaño del Buffer");
+        jLabel3.setText("Buffer");
 
         jLabel4.setText("Cantidad");
 
@@ -115,9 +149,9 @@ public class GUIFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jSpinnerConsumers)
+                    .addComponent(slider)
                     .addComponent(jSpinnerProducers)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jSpinnerBuffer, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE)
                     .addComponent(jSpinnerLowerR))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -148,7 +182,7 @@ public class GUIFrame extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jSpinnerBuffer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -289,7 +323,8 @@ public class GUIFrame extends javax.swing.JFrame {
         int inputConsumers = (Integer) this.jSpinnerConsumers.getValue();
         int inputWaitTimeCons = (Integer) this.jSpinnerWaitCons.getValue();
         
-        int inputBufferSize = (Integer) this.jSpinnerBuffer.getValue();
+        int inputBufferSize = (Integer) this.slider.getValue();
+        //System.out.println(this.slider.getValue());
         
         int inputLowRange = (Integer) this.jSpinnerLowerR.getValue();
         int inputUpRange = (Integer) this.jSpinnerUpperR.getValue();
@@ -413,5 +448,6 @@ public class GUIFrame extends javax.swing.JFrame {
     private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JTextField jTextFieldDone;
+    private javax.swing.JSlider slider;
     // End of variables declaration          
 }
