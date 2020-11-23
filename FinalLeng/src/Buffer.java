@@ -40,11 +40,7 @@ public class Buffer {
 	        
 	        String result;
 	
-	        try {
-	            result = "" + product.res;
-	        } catch (ArithmeticException e) {
-	            result = "Indeterminado";
-	        }
+	        result = "" + product.res;
 	        
 	        this.updater.updateConsumer(consumerId, product.product, product.product, result, this.buffer.size(), this.n);
 	        notify();
