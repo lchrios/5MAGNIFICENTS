@@ -22,6 +22,8 @@ public class Buffer {
     
     
     synchronized Product consume(String consumerId) {
+    	// pone el lock
+    	
         Product product;
         
         
@@ -32,6 +34,7 @@ public class Buffer {
                 Logger.getLogger(Buffer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
         product = this.buffer.remove();
         
         String result;
@@ -44,6 +47,9 @@ public class Buffer {
         
         this.updater.updateConsumer(consumerId, product.product, product.product, result, this.buffer.size(), this.n);
         notify();
+        
+        // quitas lock
+        
         return product;
     }
     
@@ -51,10 +57,12 @@ public class Buffer {
         while(this.buffer.size() == this.n) {
             try {
                 wait();
+                
             } catch (InterruptedException ex) {
                 Logger.getLogger(Buffer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
         this.buffer.add(product);
         this.updater.updateProducer(product.producerId, product.product, this.buffer.size(), this.n);
         

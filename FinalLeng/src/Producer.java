@@ -17,7 +17,7 @@ public class Producer extends Thread {
         this.buffer = buffer;
         this.run = true;
     }
-    
+
     public void halt() {
     	this.run = false;
     }
@@ -40,7 +40,7 @@ public class Producer extends Thread {
         	this.buffer.produce(product);
         }
         try {
-            Thread.sleep(wT);
+            Thread.sleep(this.wT);
         } catch (InterruptedException ex) {
             Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -25,6 +25,7 @@ public class GUIFrame extends javax.swing.JFrame {
     private Updater updater;
 
     private ProducerConsumer threadManager;
+	private Object jTabbedPaneMain;
     /**
      * Creates new form GUIFrame
      */
@@ -203,14 +204,14 @@ public class GUIFrame extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Configuración", jPanel2);
+        jTabbedPane1.addTab("Configuracion", jPanel2);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Productor", "Operación"
+                "Productor", "Operacion"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -351,15 +352,21 @@ public class GUIFrame extends javax.swing.JFrame {
             this.threadManager.setUpdater(this.updater);
             this.threadManager.startProducerConsumer();
             this.changeJButtonInicio("DETENER", Color.red);
-            this.jTabbedPaneMain.setSelectedIndex(1);
+            this.jTabbedPane1.setSelectedIndex(1);
+
             
         } else {
             this.threadManager.stopProducerConsumer();
             this.changeJButtonInicio("INICIAR", new Color(0, 102, 51));
-            this.jTabbedPaneMain.setSelectedIndex(0);
+            this.jTabbedPane1.setSelectedIndex(0);
         }
             
-    }                                             
+    }       
+    
+    private void changeJButtonInicio(String text, Color color) {
+        this.jButtonInicio.setText(text);
+        this.jButtonInicio.setForeground(color);
+    }
 
         public void setFlagToStartThreads(boolean flag){
         this.flagToStartThreads = flag;
