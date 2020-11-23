@@ -24,6 +24,7 @@ public class GUIFrame extends javax.swing.JFrame {
     private boolean flagToStartThreads; 
     private Updater updater;
 
+    private ProducerConsumer threadManager;
     /**
      * Creates new form GUIFrame
      */
@@ -334,6 +335,29 @@ public class GUIFrame extends javax.swing.JFrame {
         this.displayErrors(this.getErrors(inputProducers, inputWaitTimeProd, 
                 inputConsumers, inputWaitTimeCons, inputBufferSize, inputLowRange, 
                 inputUpRange));
+
+         if (!ProducerConsumer.inProgress) {
+            this.threadManager = new ProducerConsumer(
+                inputBufferSize,
+                inputProducers,
+                inputConsumers,
+                inputWaitTimeProd,
+                inputWaitTimeCons,
+                inputLowRange,
+                inputUpRange
+            );
+            
+            this.updater = new Updater(jTable1, jTable2, jProgressBarToDo, jTextFieldDone);
+            this.threadManager.setUpdater(this.updater);
+            this.threadManager.startProducerConsumer();
+            this.changeJButtonInicio("DETENER", Color.red);
+            this.jTabbedPaneMain.setSelectedIndex(1);
+            
+        } else {
+            this.threadManager.stopProducerConsumer();
+            this.changeJButtonInicio("INICIAR", new Color(0, 102, 51));
+            this.jTabbedPaneMain.setSelectedIndex(0);
+        }
             
     }                                             
 

@@ -6,7 +6,7 @@ public class Producer extends Thread {
 	
     Buffer buffer;
     public int id;
-    private int wT, lR,uR;
+    private int wT, lR, uR;
     private boolean run;
     
     Producer(int id, int wT, int lR, int uR, Buffer buffer) {
