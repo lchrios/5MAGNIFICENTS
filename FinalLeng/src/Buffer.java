@@ -1,40 +1,63 @@
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Buffer {
     
-    private char buffer;
+    private LinkedList<Product> buffer;
+    private Updater updater;
     
-    Buffer() {
-        this.buffer = 0;
+    private int n;
+    
+    public Buffer(int n, Updater updater) {
+        this.buffer = new LinkedList<>();
+        this.n = n;
+     
+        this.updater = updater;
     }
     
-    synchronized char consume() {
-        char product = 0;
+    public int getSize() {
+        return this.buffer.size();
+    }
+    
+    
+    synchronized Product consume(String consumerId) {
+        Product product;
         
-        if(this.buffer == 0) {
+        
+        while(this.buffer.isEmpty()) {
             try {
-                wait(1000);
+                wait();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Buffer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        product = this.buffer;
-        this.buffer = 0;
-        notify();
+        product = this.buffer.remove();
         
+        String result;
+
+        try {
+            result = "" + product.res;
+        } catch (ArithmeticException e) {
+            result = "Indeterminado";
+        }
+        
+        this.updater.updateConsumer(consumerId, product.product, product.product, result, this.buffer.size(), this.n);
+        notify();
         return product;
     }
     
-    synchronized void produce(char product) {
-        if(this.buffer != 0) {
+    synchronized void produce(Product product) {
+        while(this.buffer.size() == this.n) {
             try {
-                wait(1000);
+                wait();
             } catch (InterruptedException ex) {
                 Logger.getLogger(Buffer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        this.buffer = product;
+        this.buffer.add(product);
+        this.updater.updateProducer(product.producerId, product.product, this.buffer.size(), this.n);
+        
         
         notify();
     }
