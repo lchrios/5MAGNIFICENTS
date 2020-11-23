@@ -34,23 +34,24 @@ public class Buffer {
                 Logger.getLogger(Buffer.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        	product = this.buffer.remove();
         
-        product = this.buffer.remove();
         
-        String result;
-
-        try {
-            result = "" + product.res;
-        } catch (ArithmeticException e) {
-            result = "Indeterminado";
-        }
-        
-        this.updater.updateConsumer(consumerId, product.product, product.product, result, this.buffer.size(), this.n);
-        notify();
-        
-        // quitas lock
-        
-        return product;
+	        
+	        String result;
+	
+	        try {
+	            result = "" + product.res;
+	        } catch (ArithmeticException e) {
+	            result = "Indeterminado";
+	        }
+	        
+	        this.updater.updateConsumer(consumerId, product.product, product.product, result, this.buffer.size(), this.n);
+	        notify();
+	        
+	        // quitas lock
+	        
+	        return product;
     }
     
     synchronized void produce(Product product) {

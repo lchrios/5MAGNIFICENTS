@@ -33,17 +33,26 @@ public class Producer extends Thread {
         int num = 1;
         Product product = new Product(Integer.toString(this.id));
         
+        try {
+			Thread.sleep(50);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+        
         while(this.run) {
         	SchemeGenEval geneval = new SchemeGenEval(this.lR,this.uR);
         	product.setProduct(geneval.getOpr());
         	product.setResult(geneval.getResultS());
         	this.buffer.produce(product);
+        	
+        	 try {
+                 Thread.sleep(this.wT);
+             } catch (InterruptedException ex) {
+                 Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+             }
         }
-        try {
-            Thread.sleep(this.wT);
-        } catch (InterruptedException ex) {
-            Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
     }
     
 }

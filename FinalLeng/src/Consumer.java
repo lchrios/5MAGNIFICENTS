@@ -23,7 +23,12 @@ public class Consumer extends Thread {
     public void run() {
         System.out.println("Running Consumer...");
         Product product;
-        
+        try {
+			Thread.sleep(50);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
         while(!this.halt) {
             product = this.buffer.consume(Integer.toString(this.id));
             //System.out.println("Consumer consumed: " + product);
@@ -33,6 +38,9 @@ public class Consumer extends Thread {
                 Thread.sleep(this.wT);
             } catch (InterruptedException ex) {
                 Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, ex);
+                
+            }catch (ArrayIndexOutOfBoundsException e){
+            	Logger.getLogger(Producer.class.getName()).log(Level.SEVERE, null, e);
             }
         }
     }

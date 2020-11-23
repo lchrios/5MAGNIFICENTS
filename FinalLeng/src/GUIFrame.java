@@ -358,7 +358,7 @@ public class GUIFrame extends javax.swing.JFrame {
         } else {
             this.threadManager.stopProducerConsumer();
             this.changeJButtonInicio("INICIAR", new Color(0, 102, 51));
-            this.jTabbedPane1.setSelectedIndex(0);
+            this.jTabbedPane1.setSelectedIndex(1);
         }
             
     }       
